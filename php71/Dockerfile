@@ -20,8 +20,8 @@ RUN apt-get -y install nodejs npm rsync
 RUN add-apt-repository ppa:ondrej/php && apt-get update
 
 # Installing PHP packages
-RUN apt-get install -y nginx mysql-server-5.7 mysql-client-5.7 \
-    php7.1-cli php7.1-common php7.1-readline \
+RUN apt-get install -y mysql-server mysql-client \
+    nginx php7.1-cli php7.1-common php7.1-readline php7.1-bcmath \
     php-apcu php7.1-curl php7.1-fpm php7.1-gd php-imagick php7.1-json php7.1-soap \
     php7.1-intl php-memcached php7.1-mcrypt php7.1-mysql php-mongodb \
     php-redis php7.1-xsl php7.1-mbstring php7.1-zip php7.1-xml php7.1-opcache php-xdebug
@@ -35,7 +35,9 @@ RUN sed -i "s/\/run\/php\/php7.1-fpm.sock/9000/" /etc/php/7.1/fpm/pool.d/www.con
 RUN echo "www-data ALL=(ALL) NOPASSWD:/usr/sbin/service php7.1-fpm restart" > /etc/sudoers.d/www-data-phpfpm
 
 ADD ./mods/xdebug.ini /etc/php/7.1/mods-available/xdebug.ini
-RUN mkdir /var/run/mysqld && chown -R mysql:mysql /var/lib/mysql /var/run/mysqld
+
+#WEIRD HACK TO MAKE MYSQL WORK AND CREATE NO PASSWORD ACCOUNT FOR ADMIN
+RUN mkdir /var/run/mysqld && chown -R mysql:mysql /var/lib/mysql /var/run/mysqld && service mysql start && mysql -e "CREATE USER 'admin'@'localhost';GRANT ALL PRIVILEGES ON *.* TO 'admin'@'localhost' WITH GRANT OPTION;"
 RUN chown -R www-data:www-data /var/www
 
 ADD https://getcomposer.org/composer.phar /usr/local/bin/composer
