@@ -20,7 +20,7 @@ RUN apt-get -y install nodejs npm rsync
 RUN add-apt-repository ppa:ondrej/php && apt-get update
 
 # Installing PHP packages
-RUN apt-get install -y mysql-server mysql-client \
+RUN apt-get install -y mysql-client \
     nginx php7.1-cli php7.1-common php7.1-readline php7.1-bcmath \
     php-apcu php7.1-curl php7.1-fpm php7.1-gd php-imagick php7.1-json php7.1-soap \
     php7.1-intl php-memcached php7.1-mcrypt php7.1-mysql php-mongodb \
@@ -40,7 +40,6 @@ RUN echo "www-data ALL=(ALL) NOPASSWD:/usr/sbin/service php7.1-fpm restart" > /e
 ADD ./mods/xdebug.ini /etc/php/7.1/mods-available/xdebug.ini
 
 #WEIRD HACK TO MAKE MYSQL WORK AND CREATE NO PASSWORD ACCOUNT FOR ADMIN
-RUN mkdir /var/run/mysqld && chown -R mysql:mysql /var/lib/mysql /var/run/mysqld && service mysql start && mysql -e "CREATE USER 'admin'@'localhost';GRANT ALL PRIVILEGES ON *.* TO 'admin'@'localhost' WITH GRANT OPTION;"
 RUN chown -R www-data:www-data /var/www
 
 ADD https://getcomposer.org/composer.phar /usr/local/bin/composer
@@ -48,6 +47,6 @@ RUN chmod 755 /usr/local/bin/composer
 
 ADD ./run-server.sh /run-server.sh
 
-EXPOSE 22 3306 80 443
+EXPOSE 22 80 443
 
 CMD bash -x /run-server.sh
