@@ -38,8 +38,17 @@ RUN echo "www-data ALL=(ALL) NOPASSWD:/usr/sbin/service php7.0-fpm restart" > /e
 
 ADD ./mods/xdebug.ini /etc/php/7.0/mods-available/xdebug.ini
 
+#ADD IONCUBE
+ADD ./ioncube/ioncube_loader_lin_7.0.so /usr/lib/php/20151012/
+ADD ./mods/ioncube.ini /etc/php/7.0/mods-available/ioncube.ini
+RUN ln -s /etc/php/7.0/mods-available/ioncube.ini /etc/php/7.0/fpm/conf.d/00-ioncube.ini
+RUN ln -s /etc/php/7.0/mods-available/ioncube.ini /etc/php/7.0/cli/conf.d/00-ioncube.ini
+
 #WEIRD HACK TO MAKE MYSQL WORK AND CREATE NO PASSWORD ACCOUNT FOR ADMIN
 RUN chown -R www-data:www-data /var/www
+
+#ALLOW SSH LOGIN FOR WWW-DATA USER
+RUN sed -i "s/www-data:\/var\/www:\/usr\/sbin\/nologin/www-data:\/var\/www:\/bin\/bash/" /etc/passwd
 
 ADD https://getcomposer.org/composer.phar /usr/local/bin/composer
 RUN chmod 755 /usr/local/bin/composer

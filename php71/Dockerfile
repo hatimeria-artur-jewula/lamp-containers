@@ -39,6 +39,13 @@ RUN echo "www-data ALL=(ALL) NOPASSWD:/usr/sbin/service php7.1-fpm restart" > /e
 
 ADD ./mods/xdebug.ini /etc/php/7.1/mods-available/xdebug.ini
 
+
+#ADD IONCUBE
+ADD ./ioncube/ioncube_loader_lin_7.1.so /usr/lib/php/20160303/
+ADD ./mods/ioncube.ini /etc/php/7.1/mods-available/ioncube.ini
+RUN ln -s /etc/php/7.1/mods-available/ioncube.ini /etc/php/7.1/fpm/conf.d/00-ioncube.ini
+RUN ln -s /etc/php/7.1/mods-available/ioncube.ini /etc/php/7.1/cli/conf.d/00-ioncube.ini
+
 #WEIRD HACK TO MAKE MYSQL WORK AND CREATE NO PASSWORD ACCOUNT FOR ADMIN
 RUN mkdir /var/run/mysqld && chown -R mysql:mysql /var/lib/mysql /var/run/mysqld && service mysql start && mysql -e "CREATE USER 'admin'@'localhost';GRANT ALL PRIVILEGES ON *.* TO 'admin'@'localhost' WITH GRANT OPTION;"
 RUN chown -R www-data:www-data /var/www
