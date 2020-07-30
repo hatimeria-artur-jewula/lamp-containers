@@ -46,7 +46,7 @@ RUN ln -s /etc/php/7.3/mods-available/ioncube.ini /etc/php/7.3/cli/conf.d/00-ion
 
 RUN chown -R www-data:www-data /var/www
 
-ADD https://getcomposer.org/composer.phar /usr/local/bin/composer
+ADD https://getcomposer.org/download/1.10.9/composer.phar /usr/local/bin/composer
 RUN chmod 755 /usr/local/bin/composer
 
 ADD ./run-server.sh /run-server.sh

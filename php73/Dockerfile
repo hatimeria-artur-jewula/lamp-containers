@@ -48,7 +48,7 @@ RUN mkdir -p /run/php
 RUN mkdir /var/run/mysqld && chown -R mysql:mysql /var/lib/mysql /var/run/mysqld && service mysql start && mysql -e "CREATE USER 'admin'@'localhost';GRANT ALL PRIVILEGES ON *.* TO 'admin'@'localhost' WITH GRANT OPTION;"
 RUN chown -R www-data:www-data /var/www
 
-ADD https://getcomposer.org/composer.phar /usr/local/bin/composer
+ADD https://getcomposer.org/download/1.10.9/composer.phar /usr/local/bin/composer
 RUN chmod 755 /usr/local/bin/composer
 
 ADD ./run-server.sh /run-server.sh
