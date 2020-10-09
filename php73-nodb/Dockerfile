@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 MAINTAINER Artur Jewula <zefiryn@jewula.net>
 
@@ -14,8 +14,9 @@ ENV LANG en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
 
 RUN apt-get -y install wget curl git vim openssh-server htop sudo rsyslog logrotate software-properties-common \
-  nodejs npm rsync
+  nodejs npm rsync ghostscript aspell
 RUN npm install -g yarn
+RUN npm update -g npm
 
 RUN add-apt-repository ppa:ondrej/php && apt-get update
 

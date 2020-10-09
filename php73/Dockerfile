@@ -16,6 +16,7 @@ ENV LC_ALL en_US.UTF-8
 RUN apt-get -y install wget curl git vim openssh-server htop sudo rsyslog logrotate software-properties-common
 
 RUN apt-get -y install nodejs npm rsync
+RUN npm update -g npm
 
 RUN add-apt-repository ppa:ondrej/php && apt-get update
 
