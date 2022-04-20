@@ -1,4 +1,4 @@
-FROM docker.elastic.co/elasticsearch/elasticsearch:6.8.7
+FROM docker.elastic.co/elasticsearch/elasticsearch:7.13.0
 
 MAINTAINER Artur Jewula <zefiryn@jewula.net>
 

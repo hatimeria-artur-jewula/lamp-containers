@@ -41,7 +41,7 @@ RUN sed -i "s/\/run\/php\/php7.4-fpm.sock/9000/" /etc/php/7.4/fpm/pool.d/www.con
 RUN echo "www-data ALL=(ALL) NOPASSWD:/usr/sbin/service php7.4-fpm restart" > /etc/sudoers.d/www-data-phpfpm
 
 RUN mkdir -p /run/php
-ADD ./mods/xdebug.ini /etc/php/7.4/mods-available/xdebug.ini
+ADD ./mods/xdebug-3.ini /etc/php/7.4/mods-available/xdebug.ini
 
 #ADD IONCUBE
 ADD ./ioncube/ioncube_loader_lin_7.4.so /usr/lib/php/20190902/
