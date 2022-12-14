@@ -26,10 +26,10 @@ RUN add-apt-repository ppa:ondrej/php && apt-get update
 
 # Installing PHP packages
 RUN apt-get install -y mysql-client \
-    nginx php8.1-cli php8.1-common php8.1-readline php8.1-bcmath \
-    php8.1-apcu php8.1-curl php8.1-fpm php8.1-gd php8.1-imagick php8.1-soap \
-    php8.1-intl php8.1-memcached php8.1-mysql php8.1-mongodb \
-    php8.1-redis php8.1-xsl php8.1-mbstring php8.1-zip php8.1-xml php8.1-opcache php8.1-xdebug \
+    nginx php8.2-cli php8.2-common php8.2-readline php8.2-bcmath \
+    php8.2-apcu php8.2-curl php8.2-fpm php8.2-gd php8.2-imagick php8.2-soap \
+    php8.2-intl php8.2-memcached php8.2-mysql php8.2-mongodb \
+    php8.2-redis php8.2-xsl php8.2-mbstring php8.2-zip php8.2-xml php8.2-opcache php8.2-xdebug \
     libsodium-dev
 
 
@@ -38,23 +38,23 @@ RUN sed -i "s/;date.timezone =.*/date.timezone = UTC/" /etc/php/8.1/fpm/php.ini
 RUN sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/8.1/fpm/php.ini
 RUN sed -i "s/max_execution_time = 30/max_execution_time = 3000/" /etc/php/8.1/fpm/php.ini
 RUN sed -i "s/max_execution_time = 30/max_execution_time = 3000/" /etc/php/8.1/cli/php.ini
-RUN sed -i "s/\/run\/php\/php8.1-fpm.sock/9000/" /etc/php/8.1/fpm/pool.d/www.conf
-RUN echo "www-data ALL=(ALL) NOPASSWD:/usr/sbin/service php8.1-fpm restart" > /etc/sudoers.d/www-data-phpfpm
+RUN sed -i "s/\/run\/php\/php8.2-fpm.sock/9000/" /etc/php/8.1/fpm/pool.d/www.conf
+RUN echo "www-data ALL=(ALL) NOPASSWD:/usr/sbin/service php8.2-fpm restart" > /etc/sudoers.d/www-data-phpfpm
 
 RUN mkdir -p /run/php
-ADD ./mods/xdebug-3.ini /etc/php/8.1/mods-available/xdebug.ini
+ADD ./mods/xdebug-3.ini /etc/php/8.2/mods-available/xdebug.ini
 
 #ADD IONCUBE
-ADD ./ioncube/ioncube_loader_lin_8.1.so /usr/lib/php/20210902/
-ADD ./mods/ioncube.ini /etc/php/8.1/mods-available/ioncube.ini
-RUN ln -s /etc/php/8.1/mods-available/ioncube.ini /etc/php/8.1/fpm/conf.d/00-ioncube.ini
-RUN ln -s /etc/php/8.1/mods-available/ioncube.ini /etc/php/8.1/cli/conf.d/00-ioncube.ini
+#ADD ./ioncube/ioncube_loader_lin_8.1.so /usr/lib/php/20210902/
+#ADD ./mods/ioncube.ini /etc/php/8.1/mods-available/ioncube.ini
+#RUN ln -s /etc/php/8.1/mods-available/ioncube.ini /etc/php/8.1/fpm/conf.d/00-ioncube.ini
+#RUN ln -s /etc/php/8.1/mods-available/ioncube.ini /etc/php/8.1/cli/conf.d/00-ioncube.ini
 
 #ADD SOURCE GUARD
-ADD ./sourceguard/ixed.8.1.lin /usr/lib/php/20210902/
-ADD ./mods/sourceguard.ini /etc/php/8.1/mods-available/sourceguard.ini
-RUN ln -s /etc/php/8.1/mods-available/sourceguard.ini /etc/php/8.1/fpm/conf.d/00-sourceguard.ini
-RUN ln -s /etc/php/8.1/mods-available/sourceguard.ini /etc/php/8.1/cli/conf.d/00-sourceguard.ini
+#ADD ./sourceguard/ixed.8.1.lin /usr/lib/php/20210902/
+#ADD ./mods/sourceguard.ini /etc/php/8.1/mods-available/sourceguard.ini
+#RUN ln -s /etc/php/8.1/mods-available/sourceguard.ini /etc/php/8.1/fpm/conf.d/00-sourceguard.ini
+#RUN ln -s /etc/php/8.1/mods-available/sourceguard.ini /etc/php/8.1/cli/conf.d/00-sourceguard.ini
 
 RUN chown -R www-data:www-data /var/www
 

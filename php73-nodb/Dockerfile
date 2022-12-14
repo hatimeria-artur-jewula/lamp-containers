@@ -25,7 +25,7 @@ RUN apt-get install -y mysql-client \
     nginx php7.3-cli php7.3-common php7.3-readline php7.3-bcmath \
     php-apcu php7.3-curl php7.3-fpm php7.3-gd php-imagick php7.3-json php7.3-soap \
     php7.3-intl php-memcached php7.3-mysql php-mongodb \
-    php-redis php7.3-xsl php7.3-mbstring php7.3-zip php7.3-xml php7.3-opcache php-xdebug \
+    php-redis php7.3-xsl php7.3-mbstring php7.3-zip php7.3-xml php7.3-opcache php7.3-xdebug \
     libsodium-dev
 
 RUN sed -i "s/;date.timezone =.*/date.timezone = UTC/" /etc/php/7.3/cli/php.ini
@@ -47,8 +47,11 @@ RUN ln -s /etc/php/7.3/mods-available/ioncube.ini /etc/php/7.3/cli/conf.d/00-ion
 
 RUN chown -R www-data:www-data /var/www
 
-ADD https://getcomposer.org/download/1.10.9/composer.phar /usr/local/bin/composer
+COPY --from=composer:1.10.26 /usr/bin/composer /usr/local/bin/composer
 RUN chmod 755 /usr/local/bin/composer
+
+COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer2
+RUN chmod 755 /usr/local/bin/composer2
 
 ADD ./run-server.sh /run-server.sh
 

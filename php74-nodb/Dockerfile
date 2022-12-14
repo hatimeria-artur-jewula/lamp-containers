@@ -27,9 +27,9 @@ RUN add-apt-repository ppa:ondrej/php && apt-get update
 # Installing PHP packages
 RUN apt-get install -y mysql-client \
     nginx php7.4-cli php7.4-common php7.4-readline php7.4-bcmath \
-    php-apcu php7.4-curl php7.4-fpm php7.4-gd php-imagick php7.4-json php7.4-soap \
-    php7.4-intl php-memcached php7.4-mysql php-mongodb \
-    php-redis php7.4-xsl php7.4-mbstring php7.4-zip php7.4-xml php7.4-opcache php-xdebug \
+    php7.4-apcu php7.4-curl php7.4-fpm php7.4-gd php7.4-imagick php7.4-json php7.4-soap \
+    php7.4-intl php7.4-memcached php7.4-mysql php7.4-mongodb php7.4-dom \
+    php7.4-redis php7.4-xsl php7.4-mbstring php7.4-zip php7.4-xml php7.4-opcache php7.4-xdebug \
     libsodium-dev
 
 RUN sed -i "s/;date.timezone =.*/date.timezone = UTC/" /etc/php/7.4/cli/php.ini
@@ -51,8 +51,11 @@ RUN ln -s /etc/php/7.4/mods-available/ioncube.ini /etc/php/7.4/cli/conf.d/00-ion
 
 RUN chown -R www-data:www-data /var/www
 
-ADD https://getcomposer.org/download/1.10.9/composer.phar /usr/local/bin/composer
+COPY --from=composer:1.10.26 /usr/bin/composer /usr/local/bin/composer
 RUN chmod 755 /usr/local/bin/composer
+
+COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer2
+RUN chmod 755 /usr/local/bin/composer2
 
 ADD ./run-server.sh /run-server.sh
 

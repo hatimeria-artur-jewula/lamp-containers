@@ -1,7 +1,7 @@
 #LAMP CONTAINERS
 
 This repository contains docker files prepared to build containers with full LAMP stack. Containers are dived based on PHP version
-
+d
 ## Building the container
 
 Go to the desired PHP version folder and run the command
