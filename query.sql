@@ -1,1 +1,0 @@
-SELECT * FROM tableA a left join tableB b on a.id=b.a_id and b.type ='A'
